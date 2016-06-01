@@ -10,7 +10,7 @@
 <body>
     <form id="form1" runat="server">
     <div id ="PageWrapper">
-        <div id="Header">LStore Front - Products Admin</div>
+        <div id="Header">Store Front - Products Admin</div>
         <div id="Menu"> <a href="../Default.aspx">Store Front - Home</a>&nbsp;&nbsp;&nbsp;&nbsp;|
              &nbsp;&nbsp;&nbsp;&nbsp;<a href="CustomersAdmin.aspx">Store Front - Customers Admin</a>&nbsp;&nbsp;&nbsp;&nbsp;
              |&nbsp;&nbsp;&nbsp;&nbsp;<a href="ProductsAdmin.aspx">Store Front - Products Admin</a></div>
