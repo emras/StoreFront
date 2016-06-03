@@ -38,5 +38,10 @@ namespace Store_Front.Admin
         {
             Response.Redirect("ProductAdminDetails.aspx?ProductID=" + (GridView1.Rows[e.NewEditIndex].Cells[1].Text));
         }
+
+        protected void DetailsView1_ItemInserted(object sender, DetailsViewInsertedEventArgs e)
+        {
+            Response.Redirect("ProductsAdmin.aspx");
+        }
     }
 }
