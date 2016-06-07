@@ -3,7 +3,7 @@
 <asp:Content ID="Head" ContentPlaceHolderID="head" runat="server">Store Front - Customers Admin </asp:Content>
 
 <asp:Content ID="Body" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="UserID" DataSourceID="SqlDataSource1" AutoGenerateEditButton="True" OnRowEditing="GridView1_RowEditing" BorderColor="#999999">
+    <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="UserID" DataSourceID="SqlDataSource1" AutoGenerateEditButton="True" OnRowEditing="GridView1_RowEditing" BorderColor="#999999" PageSize="50">
         <AlternatingRowStyle BackColor="#E9E9E9" />
         <Columns>
             <asp:BoundField DataField="UserID" HeaderText="UserID" InsertVisible="False" ReadOnly="True" SortExpression="UserID" />
