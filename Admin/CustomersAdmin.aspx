@@ -27,7 +27,7 @@
             <asp:CommandField ShowInsertButton="True" />
         </Fields>
     </asp:DetailsView>
-    <asp:SqlDataSource ID="spAddUser" runat="server" ConnectionString="<%$ ConnectionStrings:StoreFrontConnectionString %>" InsertCommand="spAddUser" InsertCommandType="StoredProcedure" SelectCommand="spGetUsers" SelectCommandType="StoredProcedure">
+    <asp:SqlDataSource ID="spAddUser" runat="server" ConnectionString="<%$ ConnectionStrings:StoreFrontConnectionString %>" SelectCommand="spGetUsers" SelectCommandType="StoredProcedure" InsertCommand="spAddUser" InsertCommandType="StoredProcedure">
         <InsertParameters>
             <asp:Parameter Name="UserName" Type="String" />
             <asp:Parameter Name="EmailAddress" Type="String" />
