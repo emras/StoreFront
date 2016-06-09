@@ -1,0 +1,35 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Store_Front.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+    <link href="Controllers/Style.css" rel="stylesheet" type="text/css" />
+
+
+    <link href="Content/Style.css" rel="stylesheet" type="text/css" />
+    
+
+
+</head>
+<body>
+    <div id="PageWrapper">
+        <form runat="server">
+            <div id ="Header"> Store Front </div>
+             <div id="Menu"> <a href="../Default.aspx">Store Front - Home</a>&nbsp;&nbsp;&nbsp;&nbsp;|
+             &nbsp;&nbsp;&nbsp;&nbsp;<a href="Admin/CustomersAdmin.aspx">Store Front - Customers Admin&nbsp;</a>&nbsp;&nbsp;&nbsp;
+             |&nbsp;&nbsp;&nbsp;&nbsp;<a href="Admin/ProductsAdmin.aspx">Store Front - Products Admin</a></div>
+            <div id="LeftBar"> LEFT BAR HERE
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            </div>
+            <div id="RightBar">RIGHT BAR HERE</div>
+        
+        </form>
+    </div>
+</body>
+</html>

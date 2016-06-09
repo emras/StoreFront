@@ -1,0 +1,81 @@
+﻿*{
+    font-family:Arial;
+}
+
+#Header{
+    width: 838px;
+    height: 40px;
+    padding-top:20px;
+    margin-top: 5px;
+    margin-bottom:5px;
+    border:solid black;
+    text-align:center;
+}
+
+ a{
+    color:rgb(0, 148, 255);
+    text-decoration:none;
+}
+
+a:hover{
+    text-decoration:underline;
+
+}
+a:visited{
+    color:rgb(45, 217, 117);
+    text-decoration:none;
+}
+
+#PageWrapper{
+    width:844px;
+}
+
+#Menu{
+    height:30px;
+    width: 838px;
+    border:solid;
+    text-align:center;
+    padding-top:10px;
+    margin-bottom:5px;
+}
+
+ul{
+    height:50px;
+    margin:0;
+    padding:0;
+
+}
+
+
+
+#LeftBar{
+    width:400px;
+    height:640px;
+    margin-right:10px;
+    float:left;
+    border:solid;
+}
+
+#RightBar{
+    width:400px;
+    height:640px;
+    margin-left:10px;
+    float:right;
+    border:solid;
+}
+
+
+#Content{
+    width:300px;
+    float:left;
+}
+
+#SideContent{
+    width:500px;
+    float:right;
+}
+
+
+#rm{
+    float:right;
+}

@@ -1,0 +1,101 @@
+﻿@model Store_Front.Models.SearchViewModel
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<h2>Search</h2>
+
+<div>
+    @Html.ActionLink("Back to Index", "Index")
+</div>
+
+
+<p>
+    @using (Html.BeginForm())
+    {
+        <label for="sString">Search</label>
+        <input type="text" name="sString" id="sString" />
+        <input type="submit" value="Search Products" name="sButton" />
+    }
+</p>
+
+@if (Model.Products != null)
+{
+    var products = Model.Products.ToList();
+    <div class="container">
+        <div class="row" >
+            <table class="table table-hover" id="table" data-toggle="table" data-toolbar="#toolbar" >
+                <thead>
+                    <tr>
+                        <th>
+                            Product Name
+                        </th>
+                        <th>
+                            Image
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody id="SearchResults" >
+                    @foreach (var item in products)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductName)
+                            </td>
+                            <td>
+                                @if (item.ImageFile != null)
+                                {
+                                 <img class="img-thumbnail"  width="60" src="@Url.Content(item.ImageFile)" alt="Image" name="DBImage" />
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                               <button type="button" class="btn-default" onclidk="addToCart()" name="AddToCart">Add To Cart</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12 text-center">
+        <ul class="pagination pagination-lg pager" id="myPager"></ul>
+        </div>
+   </div>
+    if (products.Count() < 1)
+    {
+        <textarea class="alert" name="nResult">No products found.</textarea>
+    }
+}
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script> 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnsubmit').click(funtion(){
+        var productName = $('#ProductName').val();
+        $.ajax({
+            type:'POST',
+            contentType:"application/json; charset=utf-8",
+            url:'Default.aspx/Search/Search',
+            data:"{'ProductName':'"+productName+"'}",
+            async:false,
+            success: function (response) {
+                $('#ProductName').val('');
+                alert("Record saved successfully..!!");
+            },
+            error: function () {
+                alert("Error");
+            }
+        });
+    });
+    });
+
+</script>
