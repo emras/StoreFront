@@ -1,0 +1,63 @@
+﻿@model Store_Front.Models.ShoppingCartViewModel
+
+@{
+    ViewBag.Title = "Shopping Cart";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<h2>Shopping Cart</h2>
+
+<p>
+
+</p>
+@if (Model!= null)
+{
+    var products = Model.ShoppingCartItems;
+    <table class="table">
+        <tr>
+            <th>
+                Product ID
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Price
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in products)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Ajax.ActionLink("Add To Cart", "AddToCart", "Search", new AjaxOptions
+               {
+                   HttpMethod = "POST",
+                   OnSuccess = "handleResultResponseRefreshSamplePoints()",
+                   OnFailure = "handleFailedSPIDrefresh()"
+               })
+
+
+
+
+
+                </td>
+            </tr>
+        }
+
+    </table>
+    if (products.Count() < 1)
+    {
+        <textarea class="alert" name="nResult">Shopping Cart is empty.</textarea>
+    }
+}

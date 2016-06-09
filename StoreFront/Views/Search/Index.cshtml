@@ -1,0 +1,23 @@
+﻿@model Store_Front.Models.SearchViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @using (Html.BeginForm("Search","Search"))
+    {
+        <label for="sString">Search</label>
+        <input type="text" name="sString" id="sString"/>
+        <input type="submit" value="Search Products" name="sButton"/>
+    }
+</p>
+
+
+  
+
+
+
