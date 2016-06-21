@@ -17,7 +17,7 @@ namespace Store_Front.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public State()
         {
-            this.Addresses = new HashSet<Address>();
+            this.Address = new HashSet<Address>();
         }
     
         public int StateID { get; set; }
@@ -25,6 +25,6 @@ namespace Store_Front.Models
         public string StateName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Address> Addresses { get; set; }
+        public virtual ICollection<Address> Address { get; set; }
     }
 }

@@ -10,14 +10,15 @@
 <p>
     @using (Html.BeginForm("Search","Search"))
     {
-        <label for="sString">Search</label>
-        <input type="text" name="sString" id="sString"/>
-        <input type="submit" value="Search Products" name="sButton"/>
+        <div class="form-inline">
+            @Html.LabelFor(m => m.SearchText)
+            @Html.TextBoxFor(m => m.SearchText)
+            <input type="submit" class="btn btn-info" value="Search" />
+        </div>
+
     }
+
 </p>
-
-
-  
 
 
 

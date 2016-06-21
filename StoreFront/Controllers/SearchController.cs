@@ -7,101 +7,94 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Store_Front.Models;
+using System.Data.SqlClient;
+using System.Data.Entity.Validation;
 
 namespace Store_Front.Controllers
 {
     public class SearchController : Controller
     {
-        private StoreFrontEntities db = new StoreFrontEntities();
-        public SearchViewModel mdl = new SearchViewModel();
+        private StoreFrontDB db = new StoreFrontDB();
+
         // GET: Search
+        [Authorize]
         public ActionResult Index()
         {
-            return View(mdl);
+            var model = new SearchViewModel();
 
+            if (String.IsNullOrEmpty(HttpContext.User.Identity.Name))
+            {
+                return View(model);
+            }
+            else
+            {
+                int id = Int32.Parse(HttpContext.User.Identity.Name);
+                using (var db = new StoreFrontDB())
+                {
+                    model.Name = db.User.Find(id).UserName;
+                }
+
+                return View(model);
+            }
         }
 
 
-        public ActionResult Search(string sString)
+        [Authorize]
+        public ActionResult Search(SearchViewModel m)
         {
-            if (!String.IsNullOrEmpty(sString))
+            int id = Int32.Parse(HttpContext.User.Identity.Name);
+            m.getUserName(id);
+            if (!String.IsNullOrEmpty(m.SearchText))
             {
-                mdl.Products = from p in db.spSearchProducts(sString)
-                               select p;
+                using (db)
+                {
+                    var products = db.Product.Where(p => p.ProductName.Contains(m.SearchText) || p.Description.Contains(m.SearchText));
+                    m.Results = products.Select(p => new SearchResultsViewModel
+                    {
+                        ProductName = p.ProductName,
+                        Price = p.Price ?? 999999,
+                        ImageFile = p.ImageFile,
+                        ProductID = p.ProductID
+                    }).ToList();
+                }
             }
 
-            return View(mdl);
+            return View(m);
         }
+
 
         [HttpPost]
-        public string RegisterUser()
+        public JsonResult AddToCart(string id)
         {
-            return " was successfully registered.";
-        }
-
-        [HttpPost]
-        public void AddToCart(int? id)
-        {
-            int cartID = getShoppingCart(mdl.UserID);
-
-            if (cartID >-1)
+            int pid = Int32.Parse(id);
+            try
             {
-                db.spAddShoppingCartItem(id, cartID);
+                ShoppingCartViewModel cartMdl = new ShoppingCartViewModel();
+                cartMdl.UserID = Int32.Parse(HttpContext.User.Identity.Name);
+
+
+                string message = cartMdl.AddShoppingCartItem(pid);
+
+
+                var result = new { Success = "True", Message = message };
+                return Json(result,JsonRequestBehavior.AllowGet);
             }
-
-            return;
-        }
-
-        public int getShoppingCart(int UserId)
-        {
-            int? cart = (from s in db.spGetShoppingCart(UserId)
-                        select s).First().ShoppingCartID;
-
-            if (cart != null)
+            catch (DbEntityValidationException e)
             {
-                return cart.Value;
-            }else
-            {
-                return -1;
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
             }
-
         }
 
-        // GET: Search/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-
-
-
-        // POST: Search/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,SearchViewModelId,UserName")] SearchViewModel searchViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(searchViewModel).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(searchViewModel);
-        }
-
-
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
 

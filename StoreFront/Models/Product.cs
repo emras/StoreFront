@@ -17,9 +17,9 @@ namespace Store_Front.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Product()
         {
-            this.OrderProducts = new HashSet<OrderProduct>();
-            this.ShoppingCartProducts = new HashSet<ShoppingCartProduct>();
-            this.ShoppingCartProducts1 = new HashSet<ShoppingCartProduct>();
+            this.OrderProduct = new HashSet<OrderProduct>();
+            this.ShoppingCartProduct = new HashSet<ShoppingCartProduct>();
+            this.ShoppingCartProduct1 = new HashSet<ShoppingCartProduct>();
         }
     
         public int ProductID { get; set; }
@@ -35,10 +35,10 @@ namespace Store_Front.Models
         public string ModifiedBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        public virtual ICollection<OrderProduct> OrderProduct { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ShoppingCartProduct> ShoppingCartProducts { get; set; }
+        public virtual ICollection<ShoppingCartProduct> ShoppingCartProduct { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ShoppingCartProduct> ShoppingCartProducts1 { get; set; }
+        public virtual ICollection<ShoppingCartProduct> ShoppingCartProduct1 { get; set; }
     }
 }

@@ -1,0 +1,140 @@
+﻿@model Store_Front.Models.RegistrationViewModel
+@{
+    ViewBag.Title = "Customer - Registered";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-2.2.3.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+@if (Model.Name != null)
+{
+    <div class="alert-success"><h2>Thanks for Registering!</h2> </div>
+
+    <h1>@Model.Name</h1>
+}
+else
+{
+
+    <h1>Sign-Up Here</h1>
+    using (Html.BeginForm("Register", "Customer", FormMethod.Post))
+    {
+
+        @Html.ValidationSummary(true, "Registration failed, check details below:")
+        <div class="btn-group-lg">
+            <table>
+                <tr>
+                    <td valign="top">
+                        @Html.LabelFor(model => model.UserName)
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model.UserName, new
+                   {
+                       id = "uname"
+                   })
+                        <div id="namealert" style="height: 20px;">
+                            @Html.ValidationMessageFor(model => model.UserName)
+                        </div>
+                        <div class="alert-danger" hidden id="namealert-error" style="height: 20px;">
+                        </div>
+                        <div class="alert-success" id="namealert-success" hidden style="height:20px;"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        @Html.LabelFor(model => model.Password)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.Password)
+                        <div style="height: 20px;">
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        @Html.LabelFor(model => model.ConfirmPassword)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.ConfirmPassword)
+                        <div style="height: 20px;">
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        @Html.LabelFor(model => model.EmailAddress)
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.EmailAddress)
+                        <div style="height: 20px;">
+                            @Html.ValidationMessageFor(model => model.EmailAddress)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input class="btn btn-default pull-right" type="submit" value="Register" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+
+
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var name = $("#uname").val();
+            if (name != "") {
+                checkUsername(name);
+            }
+        })
+
+        function checkUsername(name) {
+            $.ajax({
+                url: '/Customer/IfUserExists',
+                contentType: 'application/json;charset=utf-8',
+                data: JSON.stringify({ UserName: name }),
+                type: 'POST',
+                dataType: 'json'
+            }).success(function (result) {
+                if (result) {
+                    $('#uname').css({ 'color': 'black', 'background-color': 'white' });
+                    $('#namealert').hide("fast");
+                    $('#namealert-error').fadeOut("fast");
+                    $('#namealert-success').text("Username is available").show("slow");
+                } else {
+                    $('#namealert').hide("fast");
+                    $('#namealert-success').hide("fast")
+                    $('#namealert-error').text("Username is taken").show("slow");
+                    $('#uname').css({ 'color': 'maroon', 'background-color': 'lightgrey' });
+
+                }
+            })
+              .error(function (xhr, status, result) {
+              alert("Something went wrong!");
+             })
+        }
+
+
+        $("#uname").click(function () {
+            $('#uname').css({ 'color': 'black', 'background-color': 'white' });
+            $('#namealert').fadeIn("fast");
+            $('#namealert-success').hide("fast");
+            $('#namealert-error').hide("fast");
+        })
+
+        $("#uname").change(function () {
+            var name = $("#uname").val();
+            checkUsername(name);
+        })
+    </script>
+
+}

@@ -1,101 +1,127 @@
-﻿@model Store_Front.Models.SearchViewModel
+﻿
+@model Store_Front.Models.SearchViewModel
 
 @{
     ViewBag.Title = "Search";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
-<h2>Search</h2>
 
-<div>
+<div class="navbar">
+
     @Html.ActionLink("Back to Index", "Index")
+
 </div>
 
 
 <p>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Search", "Search"))
     {
-        <label for="sString">Search</label>
-        <input type="text" name="sString" id="sString" />
-        <input type="submit" value="Search Products" name="sButton" />
+        <div class="form-inline">
+            @Html.LabelFor(m => m.SearchText)
+            @Html.TextBoxFor(m => m.SearchText)
+            <input type="submit" class="btn btn-info" value="Search" />
+        </div>
     }
 </p>
 
-@if (Model.Products != null)
+@if (Model.Results.Any())
 {
-    var products = Model.Products.ToList();
-    <div class="container">
-        <div class="row" >
-            <table class="table table-hover" id="table" data-toggle="table" data-toolbar="#toolbar" >
-                <thead>
-                    <tr>
-                        <th>
-                            Product Name
-                        </th>
-                        <th>
-                            Image
-                        </th>
-                        <th>
-                            Price
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
 
-                <tbody id="SearchResults" >
-                    @foreach (var item in products)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProductName)
+    var products = Model.Results.ToList();
+    <div class="container">
+        <table class="table table-hover" id="table" name="table" data-toggle="table" data-toolbar="#toolbar">
+            <thead>
+                <tr>
+                    <th class="text-center">
+                        Product Name
+                    </th>
+
+                    <th class="text-center">
+                        Image
+                    </th>
+
+                    <th class="text-center">
+                        Price
+                    </th>
+
+                    <th class="text-center">Add Item to Cart</th>
+
+                </tr>
+            </thead>
+
+            <tbody id="SearchResults" class="text-center">
+                @foreach (var item in products)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+
+                        <td>
+                            @if (item.ImageFile != null)
+                            {
+                                <img width="60" src="@Url.Content(item.ImageFile)" alt="Image" name="DBImage" />
+                            }
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+
+                        <td>
+                        <input type="button" class="btn btn-info" id="AddToCart" name="AddToCart" onclick="AddToCart(@item.ProductID)" value="Add To Cart" />
                             </td>
-                            <td>
-                                @if (item.ImageFile != null)
-                                {
-                                 <img class="img-thumbnail"  width="60" src="@Url.Content(item.ImageFile)" alt="Image" name="DBImage" />
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Price)
-                            </td>
-                            <td>
-                               <button type="button" class="btn-default" onclidk="addToCart()" name="AddToCart">Add To Cart</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-12 text-center">
-        <ul class="pagination pagination-lg pager" id="myPager"></ul>
-        </div>
-   </div>
-    if (products.Count() < 1)
-    {
-        <textarea class="alert" name="nResult">No products found.</textarea>
-    }
+                    </tr>
+                       <div id="row-@item.ProductID" class="alert-success"></div>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <textarea class="alert" name="nResult">No products found.</textarea>
 }
 
-<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script> 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#btnsubmit').click(funtion(){
-        var productName = $('#ProductName').val();
-        $.ajax({
-            type:'POST',
-            contentType:"application/json; charset=utf-8",
-            url:'Default.aspx/Search/Search',
-            data:"{'ProductName':'"+productName+"'}",
-            async:false,
-            success: function (response) {
-                $('#ProductName').val('');
-                alert("Record saved successfully..!!");
-            },
-            error: function () {
-                alert("Error");
-            }
-        });
-    });
-    });
 
-</script>
+
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $('table').DataTable({
+                filter: false,
+                lengthChange: false,
+                pageLength: 50
+            });
+        });
+
+
+        function AddToCart(itemID) {
+            $.ajax({
+                url: '/Search/AddToCart',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ id: itemID }),
+                type: 'POST',
+                dataType: 'json'
+            })
+            .success(function (result) {
+
+                if (result.Success) {
+                    $('#row-' + itemID).text(result.Message).fadeIn(3000);
+                    $('#row-' + itemID).fadeOut(3000);
+                } else {
+                    alert(result.Message);
+                }
+
+            })
+            .error(function (xhr, status, result) {
+                alert(result.Message);
+            })
+        }
+
+    </script>
+}

@@ -17,8 +17,8 @@ namespace Store_Front.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Order()
         {
-            this.OrderProducts = new HashSet<OrderProduct>();
-            this.OrderProducts1 = new HashSet<OrderProduct>();
+            this.OrderProduct = new HashSet<OrderProduct>();
+            this.OrderProduct1 = new HashSet<OrderProduct>();
         }
     
         public int OrderID { get; set; }
@@ -36,9 +36,9 @@ namespace Store_Front.Models
         public virtual Status Status { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        public virtual ICollection<OrderProduct> OrderProduct { get; set; }
         public virtual User User1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderProduct> OrderProducts1 { get; set; }
+        public virtual ICollection<OrderProduct> OrderProduct1 { get; set; }
     }
 }

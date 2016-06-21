@@ -1,0 +1,39 @@
+﻿@model Store_Front.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Customer";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+@if(Model.Name != null)
+{
+    <h1>Hello, @Model.Name!</h1>
+}else
+{
+    <div class="form-horizontal">
+       <h3>
+           Login to shop :
+           <button type="button" id="login" class="btn btn-info btn-lg">Login</button>
+        </h3> 
+        <h3>
+            New User? :
+            <button type="button" id="register" class="btn btn-info btn-lg">Register</button>
+        </h3> 
+    </div>
+
+}
+
+@section Scripts{
+<script>
+
+    $("#login").click(function () {
+        var url = '@Url.Content("~/Customer/Login")';
+        window.location.href = url;
+    })
+
+    $("#register").click(function () {
+        var url = '@Url.Content("~/Customer/Register")';
+        window.location.href = url;
+    })
+</script>    
+    }

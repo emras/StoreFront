@@ -1,0 +1,57 @@
+﻿@model Store_Front.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Customer - Login";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+@if (Model.Name != null)
+{
+    <div class="alert-success"><h2>Welcome Back!</h2> </div>
+
+    <h1>@Model.Name</h1>
+}
+else
+{
+        <h1>Login Here</h1>
+        using (Html.BeginForm("Login", "Customer", FormMethod.Post))
+        {
+
+            @Html.ValidationSummary(true, "Log in failed, check details below:")
+            <div class="btn-group-lg">
+                <table>
+                    <tr>
+                        <td valign="top">
+                            @Html.LabelFor(model => model.UserName)
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model.UserName)
+                            <div style="height: 20px;">
+                                @Html.ValidationMessageFor(model => model.UserName)
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            @Html.LabelFor(model => model.Password)
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model.Password)
+                            <div style="height: 20px;">
+                                @Html.ValidationMessageFor(model => model.Password)
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input class="btn btn-default pull-right" type="submit" value="Login" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+}
+
+
+

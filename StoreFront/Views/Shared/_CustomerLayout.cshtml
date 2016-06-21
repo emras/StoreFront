@@ -1,4 +1,4 @@
-﻿@model Store_Front.Models.SearchViewModel
+﻿@model Store_Front.Models.CustomerBaseViewModel
 
 <!DOCTYPE html>
 <html>
@@ -6,51 +6,103 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer - @ViewBag.Title </title>
+    <title>Store Front - @ViewBag.Title </title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <script src="<%= Url.Content('~/Scripts/jquery-1.3.2.js'') %>" type="text/javascript"></script>
-    <script src="<%= Url.Content(' ~/Scripts/MicrosoftAjax.debug.js') %>" type="text/javascript"></script>
-
+    @Styles.Render("~/Content/bootstrap.css")
+    @Styles.Render("~/Content/Style.css")
 </head>
 <body>
-    <div class="page-header">
-        <div class="navbar-header navbar-fixed-top">
-            <a class="navbar-brand">@ViewBag.Title</a>
-            <a class="navbar-right navbar-brand" href="~/Customer/ShoppingCart">View Cart</a>
-            <p class="lead top-right" style="float:right; padding-top:10px">
-                   Welcome, @Model.UserName
+    <div id="PageWrapper">
+        <div id="Header">
+            <div class="pull-left"> Store Front - @ViewBag.Title</div>
+            <ul class="menu text-right small">
+                @if (Model.Name != null)
+            {
+                    <li class="menu">
+                        Welcome, @Model.Name
+                    </li>
+                        <li class="menu">
+                            @{Html.RenderAction("CartSize", "ShoppingCart", new { mdl = Model });}
+                        </li>
+                        <li class="menu">@Html.ActionLink("Logout", "Logout", "Customer")</li>
+                                }
+                                else
+                                {
+                                    <li class="menu">@Html.ActionLink("Login/Register", "Index", "Customer")</li> 
+                                }
+            </ul>
 
-            </p>
-            <br /><p class="bottom">
-                <ul class="nav navbar-nav">
-                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="nav-item">@Html.ActionLink("Search", "Index", "Search")</li>
-                    <li class="nav-item">@Html.ActionLink("Profile", "Index", "Profile")</li>
-                </ul>
-            </p>
+        </div>
+        <div id="Menu">
+            <ul class="menu">
+                <li class="circle">@Html.ActionLink("Home", "Index", "Home") </li>
+                <li class="circle">@Html.ActionLink("Search", "Index", "Search") </li>
+                <li class="circle">@Html.ActionLink("Profile", "Index", "Customer") </li>
+            </ul>
+
+
+        </div>
+        <div id="MainContent">
+            @this.RenderBody()
+        </div>
+        <div id="footer">
+            <p>Store Front - Customer</p>
         </div>
 
-
-
-
     </div>
 
 
+    @*<div class="page-header">
+            <div class="navbar-header navbar-fixed-top">
+                <a class="navbar-brand">Store Front - @ViewBag.Title</a>
+
+                @if (Model.Name != null)
+                {
+                    <ul class="navbar-right list-inline">
+                        <li class="nav-item" id="cartcontent">@{Html.RenderAction("CartSize", "ShoppingCart", new { mdl = Model });}</li>
+                        <li class="nav-item">@Html.ActionLink("Logout", "Logout", "Customer")</li>
+                    </ul>
+
+                    <p class="lead pull-right">
+                        Welcome, @Model.Name
+
+                    </p>
+                            }
+                            else
+                            {
+                                <ul class="navbar-right list-inline">
+                                    <li class="nav-item">@Html.ActionLink("Login/Register", "Index", "Customer")</li>
+                                </ul>
+                            }
+
+                <br /><p class="bottom">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li class="nav-item">@Html.ActionLink("Search", "Index", "Search")</li>
+                        <li class="nav-item">@Html.ActionLink("Profile", "Index", "Customer")</li>
+                    </ul>
+                </p>
 
 
 
-    <div class="container body-content">
-        @this.RenderBody()
-    </div>
-    <div class="panel-footer">
-        <footer>
-            <p>Customer View</p>
-        </footer>
-    </div>
+            </div>
+        </div>
+
+        <div class="container body-content">
+            @this.RenderBody()
+        </div>
+        <div class="panel-footer">
+            <footer>
+                <p>Customer View</p>
+            </footer>
+        </div>*@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/Datatables/jquery.dataTables.js")
+    @Scripts.Render("~/Scripts/Datatables/dataTables.bootstrap.js")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

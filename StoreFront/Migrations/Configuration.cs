@@ -5,14 +5,14 @@ namespace Store_Front.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Store_Front.Models.StoreFrontEntities>
+    internal sealed class Configuration : DbMigrationsConfiguration<Store_Front.Models.StoreFrontDB>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Store_Front.Models.StoreFrontEntities context)
+        protected override void Seed(Store_Front.Models.StoreFrontDB context)
         {
             //  This method will be called after migrating to the latest version.
 
